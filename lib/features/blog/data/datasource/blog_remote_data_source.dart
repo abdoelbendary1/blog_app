@@ -21,8 +21,12 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
   @override
   Future<BlogModel> uploadBlog(BlogModel blog) async {
     try {
-      final blogData =
-          await supabaseClient.from("blogs").insert(blog.toJson()).select();
+      final blogData = await supabaseClient
+          .from("blogs")
+          .insert(blog.toJson())
+          .select();
+      // final blogData =
+      //     await supabaseClient.from("blogs").insert(blog.toJson()).select();
 
       return BlogModel.fromJson(blogData.first);
     } on PostgrestException catch (e) {
@@ -38,14 +42,8 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
     required BlogModel blog,
   }) async {
     try {
-      await supabaseClient.storage.from('blog_images').upload(
-            blog.id,
-            image,
-          );
-
-      return supabaseClient.storage.from('blog_images').getPublicUrl(
-            blog.id,
-          );
+      await supabaseClient.storage.from("blog_images").upload(blog.id, image);
+      return supabaseClient.storage.from("blog_images").getPublicUrl(blog.id);
     } on StorageException catch (e) {
       throw ServerException(e.message);
     } catch (e) {
@@ -56,13 +54,14 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
   @override
   Future<List<BlogModel>> getAllBlogs() async {
     try {
-      final blogs =
-          await supabaseClient.from('blogs').select('*, profiles (name)');
+      final blogs = await supabaseClient
+          .from('blogs')
+          .select('*, profiles (name)');
       return blogs
           .map(
-            (blog) => BlogModel.fromJson(blog).copyWith(
-              posterName: blog['profiles']['name'],
-            ),
+            (blog) => BlogModel.fromJson(
+              blog,
+            ).copyWith(posterName: blog['profiles']['name']),
           )
           .toList();
     } on PostgrestException catch (e) {

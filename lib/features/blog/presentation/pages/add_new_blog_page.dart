@@ -15,9 +15,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddNewBlogPage extends StatefulWidget {
-  static route() => MaterialPageRoute(
-        builder: (context) => const AddNewBlogPage(),
-      );
+  static route() =>
+      MaterialPageRoute(builder: (context) => const AddNewBlogPage());
   const AddNewBlogPage({super.key});
 
   @override
@@ -47,14 +46,14 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
       final posterId =
           (context.read<AppUserCubit>().state as AppUserLoggedIn).user.id;
       context.read<BlogBloc>().add(
-            BlogUpload(
-              posterId: posterId,
-              title: titleController.text.trim(),
-              content: contentController.text.trim(),
-              image: image!,
-              topics: selectedTopics,
-            ),
-          );
+        BlogUpload(
+          posterId: posterId,
+          title: titleController.text.trim(),
+          content: contentController.text.trim(),
+          image: image!,
+          topics: selectedTopics,
+        ),
+      );
     }
   }
 
@@ -110,10 +109,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                               height: 150,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: Image.file(
-                                  image!,
-                                  fit: BoxFit.cover,
-                                ),
+                                child: Image.file(image!, fit: BoxFit.cover),
                               ),
                             ),
                           )
@@ -132,16 +128,11 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                                 child: const Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(
-                                      Icons.folder_open,
-                                      size: 40,
-                                    ),
+                                    Icon(Icons.folder_open, size: 40),
                                     SizedBox(height: 15),
                                     Text(
                                       'Select your image',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                      ),
+                                      style: TextStyle(fontSize: 15),
                                     ),
                                   ],
                                 ),
